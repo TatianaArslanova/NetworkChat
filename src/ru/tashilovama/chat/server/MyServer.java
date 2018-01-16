@@ -54,8 +54,17 @@ public class MyServer {
         }
     }
 
+    private synchronized void broadcastClientList(){
+        StringBuilder clientList=new StringBuilder("/clientlist ");
+        for (ClientHandler o: clients){
+            clientList.append(o.getNick()+"\n");
+        }
+        broadcastMessage(clientList.toString());
+    }
+
     public synchronized void subscribe(ClientHandler client){
         clients.add(client);
+        broadcastClientList();
     }
 
     public synchronized void unsubscribe(ClientHandler client){
@@ -63,6 +72,7 @@ public class MyServer {
             guestAuth.removeGuest(client.getNick());
         }
         clients.remove(client);
+        broadcastClientList();
         broadcastMessage(client.getNick() + " покидает чат");
     }
 

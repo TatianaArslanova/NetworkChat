@@ -16,6 +16,7 @@ import java.util.ResourceBundle;
 public class ControllerMainStage implements Initializable{
 
     public TextArea chatTextArea;
+    public TextArea clientList;
     public TextField messageField;
     public TextField loginField;
     public PasswordField passField;
@@ -50,10 +51,20 @@ public class ControllerMainStage implements Initializable{
         passField.clear();
     }
 
+    private void updateClientList(String clients){
+        clientList.clear();
+        clientList.appendText(clients);
+    }
+
     private boolean executeIfIsCommand(String message) {
-        String[] parts = message.split(" ", 3);
+        final int PARTS_LIMIT=2;
+        String[] parts = message.split(" ", PARTS_LIMIT);
         String command = parts[0];
+        String specifiadMessage;
         switch (command) {
+            case "/clientlist":
+                specifiadMessage=parts[1];
+                updateClientList(specifiadMessage);
             case "/guestauth":
                 authPane.setVisible(false);
                 messagePane.setVisible(true);
@@ -65,6 +76,7 @@ public class ControllerMainStage implements Initializable{
             case "/end":
                 authPane.setVisible(true);
                 messagePane.setVisible(false);
+                clientList.clear();
                 return true;
             default:
                 return false;

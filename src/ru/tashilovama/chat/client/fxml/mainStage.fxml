@@ -12,7 +12,10 @@
         <Button text="Войти" onAction="#userAuthClick" minWidth="50"/>
         <Button text="Войти как гость" onAction="#guestAuthClick" minWidth="110"/>
     </HBox>
-    <TextArea fx:id="chatTextArea" VBox.vgrow="ALWAYS" editable="false" scrollLeft="NaN" focusTraversable="false"/>
+    <HBox VBox.vgrow="ALWAYS">
+    <TextArea fx:id="chatTextArea" HBox.hgrow="ALWAYS" editable="false" scrollLeft="NaN" focusTraversable="false"/>
+    <TextArea fx:id="clientList" editable="false" maxWidth="160" minWidth="160" focusTraversable="false"/>
+    </HBox>
     <HBox visible="false" fx:id="messagePane">
         <TextField fx:id="messageField" HBox.hgrow="ALWAYS" minWidth="100" onAction="#onSend"/>
         <Button text="Отправить" minWidth="100" onAction="#onSend"/>
