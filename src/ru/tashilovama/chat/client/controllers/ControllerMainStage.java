@@ -67,15 +67,21 @@ public class ControllerMainStage implements Initializable{
                 updateClientList(specifiadMessage);
             case "/guestauth":
                 authPane.setVisible(false);
+                authPane.setManaged(false);
                 messagePane.setVisible(true);
+                messagePane.setManaged(true);
                 return true;
             case "/auth":
                 authPane.setVisible(false);
+                authPane.setManaged(false);
                 messagePane.setVisible(true);
+                messagePane.setManaged(true);
                 return true;
             case "/end":
                 authPane.setVisible(true);
+                authPane.setManaged(true);
                 messagePane.setVisible(false);
+                messagePane.setManaged(false);
                 clientList.clear();
                 return true;
             default:

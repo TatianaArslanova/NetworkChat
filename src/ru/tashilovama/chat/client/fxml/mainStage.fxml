@@ -16,7 +16,7 @@
     <TextArea fx:id="chatTextArea" HBox.hgrow="ALWAYS" editable="false" scrollLeft="NaN" focusTraversable="false"/>
     <TextArea fx:id="clientList" editable="false" maxWidth="160" minWidth="160" focusTraversable="false"/>
     </HBox>
-    <HBox visible="false" fx:id="messagePane">
+    <HBox visible="false" fx:id="messagePane" managed="false">
         <TextField fx:id="messageField" HBox.hgrow="ALWAYS" minWidth="100" onAction="#onSend"/>
         <Button text="Отправить" minWidth="100" onAction="#onSend"/>
     </HBox>
