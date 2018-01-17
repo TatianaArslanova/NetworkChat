@@ -1,7 +1,5 @@
 package ru.tashilovama.chat.client.content;
 
-import javafx.application.Platform;
-
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -23,32 +21,41 @@ public class Client {
         this.controller=controller;
     }
 
-    public Client() {
-        try {
-            socket = new Socket(host, PORT);
-            in = new DataInputStream(socket.getInputStream());
-            out = new DataOutputStream(socket.getOutputStream());
-            Thread thread = new Thread(() -> {
-                try {
-                    while (true) {
-                        String message;
-                        message = in.readUTF();
-                        controller.callMeBack(message);
-                    }
-                } catch (IOException e) {
-                    //  e.printStackTrace();
-                    System.out.println("Клиент отключился");
-                    Platform.exit();
-                } finally {
+    public void startConnection(){
+        if (socket==null || socket.isClosed()) {
+            try {
+                socket = new Socket(host, PORT);
+                in = new DataInputStream(socket.getInputStream());
+                out = new DataOutputStream(socket.getOutputStream());
+                Thread thread = new Thread(() -> {
                     try {
-                        socket.close();
+                        while (true) {
+                            String message;
+                            message = in.readUTF();
+                            controller.callMeBack(message);
+                        }
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        //  e.printStackTrace();
+                        System.out.println("Клиент отключился");
+                    } finally {
+                        try {
+                            socket.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }
-            });
-            thread.setDaemon(true);
-            thread.start();
+                });
+                thread.setDaemon(true);
+                thread.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void closeConnection(){
+        try {
+            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

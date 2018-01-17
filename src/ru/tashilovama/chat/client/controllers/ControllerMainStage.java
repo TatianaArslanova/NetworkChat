@@ -1,6 +1,5 @@
 package ru.tashilovama.chat.client.controllers;
 
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.control.PasswordField;
@@ -50,10 +49,12 @@ public class ControllerMainStage implements Initializable {
     }
 
     public void guestAuthClick() {
+        client.startConnection();
         client.writeMsg("/guestauth");
     }
 
     public void userAuthClick() {
+        client.startConnection();
         client.writeMsg("/auth " + loginField.getText() + " " + passField.getText());
         loginField.clear();
         passField.clear();
@@ -98,6 +99,7 @@ public class ControllerMainStage implements Initializable {
                 messagePane.setManaged(false);
                 clientList.clear();
                 Platform.runLater(() -> mainStage.setTitle(mainTitle));
+                client.closeConnection();
                 return true;
             case "/changenick":
                 myNick = parts[1];
