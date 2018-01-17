@@ -14,7 +14,7 @@ import ru.tashilovama.chat.client.content.Client;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class ControllerMainStage implements Initializable{
+public class ControllerMainStage implements Initializable {
 
     public TextArea chatTextArea;
     public TextArea clientList;
@@ -31,14 +31,15 @@ public class ControllerMainStage implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         Main.getInstance().registerCallback(stage -> {
-            mainStage=stage;
-            mainTitle=stage.getTitle();
+            mainStage = stage;
+            mainTitle = stage.getTitle();
         });
-        client=Main.getInstance().getClient();
+        client = Main.getInstance().getClient();
         client.registerCallback(message ->
-        {if (!message.startsWith("/") || !executeIfIsCommand(message)){
-            chatTextArea.appendText(message + "\n");
-        }
+        {
+            if (!message.startsWith("/") || !executeIfIsCommand(message)) {
+                chatTextArea.appendText(message + "\n");
+            }
         });
     }
 
@@ -58,37 +59,37 @@ public class ControllerMainStage implements Initializable{
         passField.clear();
     }
 
-    private void updateClientList(String clients){
+    private void updateClientList(String clients) {
         clientList.clear();
         clientList.appendText(clients);
     }
 
     private boolean executeIfIsCommand(String message) {
-        final int PARTS_LIMIT=2;
+        final int PARTS_LIMIT = 2;
         String[] parts = message.split(" ", PARTS_LIMIT);
         String command = parts[0];
         String specifiadMessage;
         String myNick;
         switch (command) {
             case "/clientlist":
-                specifiadMessage=parts[1];
+                specifiadMessage = parts[1];
                 updateClientList(specifiadMessage);
                 return true;
             case "/guestauth":
-                myNick=parts[1];
+                myNick = parts[1];
                 authPane.setVisible(false);
                 authPane.setManaged(false);
                 messagePane.setVisible(true);
                 messagePane.setManaged(true);
-                Platform.runLater(() -> mainStage.setTitle(mainTitle+" - "+myNick));
+                Platform.runLater(() -> mainStage.setTitle(mainTitle + " - " + myNick));
                 return true;
             case "/auth":
-                myNick=parts[1];
+                myNick = parts[1];
                 authPane.setVisible(false);
                 authPane.setManaged(false);
                 messagePane.setVisible(true);
                 messagePane.setManaged(true);
-                Platform.runLater(() -> mainStage.setTitle(mainTitle+" - "+myNick));
+                Platform.runLater(() -> mainStage.setTitle(mainTitle + " - " + myNick));
                 return true;
             case "/end":
                 authPane.setVisible(true);
@@ -99,8 +100,8 @@ public class ControllerMainStage implements Initializable{
                 Platform.runLater(() -> mainStage.setTitle(mainTitle));
                 return true;
             case "/changenick":
-                myNick=parts[1];
-                Platform.runLater(() -> mainStage.setTitle(mainTitle+" - "+myNick));
+                myNick = parts[1];
+                Platform.runLater(() -> mainStage.setTitle(mainTitle + " - " + myNick));
                 return true;
             default:
                 return false;
