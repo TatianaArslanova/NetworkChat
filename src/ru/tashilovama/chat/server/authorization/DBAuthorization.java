@@ -8,7 +8,7 @@ public class DBAuthorization implements AuthService{
     private PreparedStatement checkNick;
     private PreparedStatement setNick;
 
-    public boolean start() {
+    public void start() {
         try {
             Class.forName("org.sqlite.JDBC");
             connection= DriverManager.getConnection("jdbc:sqlite:authBase.db");
@@ -17,9 +17,7 @@ public class DBAuthorization implements AuthService{
             setNick=connection.prepareStatement("UPDATE authTable SET nick = ? WHERE nick = ?;");
         } catch (Exception e) {
         //    e.printStackTrace();
-            return false;
         }
-        return true;
     }
 
     public String getNickByLoginPass(String login, String pass){

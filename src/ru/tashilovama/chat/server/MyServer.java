@@ -21,10 +21,7 @@ public class MyServer {
             guestAuth=new GuestAuthorization();
             authService=new DBAuthorization();
             System.out.println("Сервер запущен");
-            if (!authService.start()) {
-                authService = new BaseAuthorization();
-                authService.start();
-            }
+            authService.start();
             new Thread(() -> {
                 try{
                     while (true) {
