@@ -54,7 +54,7 @@ public class MyServer {
         }
     }
 
-    private synchronized void broadcastClientList(){
+    public synchronized void broadcastClientList(){
         StringBuilder clientList=new StringBuilder("/clientlist ");
         for (ClientHandler o: clients){
             clientList.append(o.getNick()+"\n");

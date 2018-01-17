@@ -33,6 +33,20 @@ public class BaseAuthorization implements AuthService {
     public void stop() {}
 
     @Override
+    public boolean changeNick(String oldNick, String newNick) {
+        for (User o: users){
+            if (o.nick.equals(newNick))return false;
+        }
+        for (User o: users){
+            if (o.nick.equals(oldNick)){
+                o.nick=newNick;
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
     public String getNickByLoginPass(String login, String pass) {
         for (User o: users){
             if (o.login.equals(login)&&o.pass.equals(pass)){

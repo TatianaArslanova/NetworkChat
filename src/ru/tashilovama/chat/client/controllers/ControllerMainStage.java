@@ -98,6 +98,10 @@ public class ControllerMainStage implements Initializable{
                 clientList.clear();
                 Platform.runLater(() -> mainStage.setTitle(mainTitle));
                 return true;
+            case "/changenick":
+                myNick=parts[1];
+                Platform.runLater(() -> mainStage.setTitle(mainTitle+" - "+myNick));
+                return true;
             default:
                 return false;
         }

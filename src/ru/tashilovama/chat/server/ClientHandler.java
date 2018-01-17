@@ -62,6 +62,12 @@ public class ClientHandler {
         }
     }
 
+    private void changeNick(String newNick){
+        myServer.broadcastMessage(nick+" меняет ник на "+newNick);
+        nick=newNick;
+        myServer.broadcastClientList();
+    }
+
     private boolean executeIfIsCommand(String message) {
         final int PARTS_LIMIT=3;
         String[] parts = message.split(" ", PARTS_LIMIT);
@@ -117,6 +123,17 @@ public class ClientHandler {
                     if (myServer.wispMsg(specifiadNick, "Личное сообщение от "+nick+": "+specifiadMessage)) {
                         sendMsg("Личное сообщение для " + specifiadNick + ": " + specifiadMessage);
                     } else sendMsg("Адресат " + specifiadNick + " не найден для сообщения: " + specifiadMessage);
+                    return true;
+                case "/changenick":
+                    if (parts.length<2) {
+                        sendMsg("Команда сформулирована неверно: \""+message.trim()+"\"");
+                        return true;
+                    }
+                    specifiadNick=parts[1];
+                    if (myServer.getAuthService().changeNick(nick,specifiadNick)){
+                        changeNick(specifiadNick);
+                        sendMsg(command+" "+specifiadNick);
+                    }
                     return true;
                 case "/guestauth":
                     sendMsg("Для смены пользователя завершите сеанс");
