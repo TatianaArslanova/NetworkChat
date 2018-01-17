@@ -78,7 +78,7 @@ public class ClientHandler {
                     else {
                         sendMsg("Вы авторизованы как " + nick);
                         rights=Rights.GUEST;
-                        sendMsg(command);
+                        sendMsg(command+" "+nick);
                         myServer.subscribe(this);
                         myServer.broadcastMessage(nick + " входит в чат");
                     }
@@ -92,7 +92,7 @@ public class ClientHandler {
                     } else if (!myServer.isNickBusy(nick)){
                         sendMsg("Вы авторизованы как "+nick);
                         rights=Rights.AUTHORIZED;
-                        sendMsg(command);
+                        sendMsg(command+" "+nick);
                         myServer.subscribe(this);
                         myServer.broadcastMessage(nick +" входит в чат");
                     } else sendMsg("Учетная запись уже используется");

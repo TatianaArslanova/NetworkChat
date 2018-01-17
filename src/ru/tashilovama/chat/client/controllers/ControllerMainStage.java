@@ -1,15 +1,16 @@
 package ru.tashilovama.chat.client.controllers;
 
+import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.Initializable;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.text.Font;
+import javafx.stage.Stage;
 import ru.tashilovama.chat.client.content.Main;
 import ru.tashilovama.chat.client.content.Client;
 
-import java.awt.*;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -24,9 +25,15 @@ public class ControllerMainStage implements Initializable{
     public HBox authPane;
 
     private Client client;
+    private Stage mainStage;
+    private String mainTitle;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        Main.getInstance().registerCallback(stage -> {
+            mainStage=stage;
+            mainTitle=stage.getTitle();
+        });
         client=Main.getInstance().getClient();
         client.registerCallback(message ->
         {if (!message.startsWith("/") || !executeIfIsCommand(message)){
@@ -61,21 +68,27 @@ public class ControllerMainStage implements Initializable{
         String[] parts = message.split(" ", PARTS_LIMIT);
         String command = parts[0];
         String specifiadMessage;
+        String myNick;
         switch (command) {
             case "/clientlist":
                 specifiadMessage=parts[1];
                 updateClientList(specifiadMessage);
+                return true;
             case "/guestauth":
+                myNick=parts[1];
                 authPane.setVisible(false);
                 authPane.setManaged(false);
                 messagePane.setVisible(true);
                 messagePane.setManaged(true);
+                Platform.runLater(() -> mainStage.setTitle(mainTitle+" - "+myNick));
                 return true;
             case "/auth":
+                myNick=parts[1];
                 authPane.setVisible(false);
                 authPane.setManaged(false);
                 messagePane.setVisible(true);
                 messagePane.setManaged(true);
+                Platform.runLater(() -> mainStage.setTitle(mainTitle+" - "+myNick));
                 return true;
             case "/end":
                 authPane.setVisible(true);
@@ -83,9 +96,11 @@ public class ControllerMainStage implements Initializable{
                 messagePane.setVisible(false);
                 messagePane.setManaged(false);
                 clientList.clear();
+                Platform.runLater(() -> mainStage.setTitle(mainTitle));
                 return true;
             default:
                 return false;
         }
     }
+
 }

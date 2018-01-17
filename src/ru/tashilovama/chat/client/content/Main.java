@@ -12,6 +12,7 @@ import java.awt.*;
 public class Main extends Application {
     private Client client;
     private ControllerMainStage mainController;
+    private Callback controller;
     private static Main instance;
 
     @Override
@@ -19,6 +20,14 @@ public class Main extends Application {
         super.init();
         client=new Client();
         instance=this;
+    }
+
+    public interface Callback{
+        void callMeBack(Stage stage);
+    }
+
+    public void registerCallback(Callback controller){
+        this.controller=controller;
     }
 
     public static Main getInstance(){
@@ -41,7 +50,7 @@ public class Main extends Application {
         primaryStage.setMinWidth(350);
         primaryStage.setMinHeight(200);
         primaryStage.show();
-
+        controller.callMeBack(primaryStage);
     }
 
     public static void main(String[] args) {
