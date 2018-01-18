@@ -4,6 +4,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.SplitPane?>
 <VBox fx:controller="ru.tashilovama.chat.client.controllers.ControllerMainStage"
       xmlns:fx="http://javafx.com/fxml" alignment="center">
     <HBox fx:id="authPane">
@@ -13,8 +14,10 @@
         <Button text="Войти как гость" onAction="#guestAuthClick" minWidth="110"/>
     </HBox>
     <HBox VBox.vgrow="ALWAYS">
+        <SplitPane>
     <TextArea fx:id="chatTextArea" HBox.hgrow="ALWAYS" editable="false" scrollLeft="NaN" focusTraversable="false"/>
-    <TextArea fx:id="clientList" editable="false" maxWidth="160" minWidth="160" focusTraversable="false"/>
+    <TextArea fx:id="clientList" editable="false" minWidth="50" maxWidth="200" focusTraversable="false"/>
+        </SplitPane>
     </HBox>
     <HBox visible="false" fx:id="messagePane" managed="false">
         <TextField fx:id="messageField" HBox.hgrow="ALWAYS" minWidth="100" onAction="#onSend"/>
