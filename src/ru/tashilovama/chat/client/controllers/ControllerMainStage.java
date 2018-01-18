@@ -8,10 +8,11 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import ru.tashilovama.chat.client.content.Main;
 import ru.tashilovama.chat.client.content.Client;
+import ru.tashilovama.chat.client.content.Main;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -75,6 +76,15 @@ public class ControllerMainStage implements Initializable {
             clientList.setItems(users);
         });
     }
+
+    public void listClick(MouseEvent mouseEvent) {
+        if (mouseEvent.getClickCount() == 2) {
+            messageField.setText(clientList.getSelectionModel().getSelectedItem() + ", ");
+            messageField.requestFocus();
+            messageField.end();
+        }
+    }
+
 
     private boolean executeIfIsCommand(String message) {
         final int PARTS_LIMIT = 2;
