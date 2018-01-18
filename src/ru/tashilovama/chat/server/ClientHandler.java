@@ -105,11 +105,9 @@ public class ClientHandler {
                             } else sendMsg("Учетная запись уже используется");
                         return true;
                     case "/end":
-                        myServer.unsubscribe(this);
                         rights = Rights.NOT_AUTHORIZED;
-                        sendMsg(command);
-                        nick = null;
                         sendMsg("Вы вышли из учетной записи");
+                        sendMsg(command);
                         return true;
                     case "/wisp":
                         if (parts.length != PARTS_LIMIT) {
