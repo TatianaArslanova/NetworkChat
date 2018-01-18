@@ -1,7 +1,10 @@
 package ru.tashilovama.chat.client.controllers;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ListView;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -16,7 +19,7 @@ import java.util.ResourceBundle;
 public class ControllerMainStage implements Initializable {
 
     public TextArea chatTextArea;
-    public TextArea clientList;
+    public ListView<String> clientList;
     public TextField messageField;
     public TextField loginField;
     public PasswordField passField;
@@ -27,8 +30,12 @@ public class ControllerMainStage implements Initializable {
     private Stage mainStage;
     private String mainTitle;
 
+    private ObservableList<String> users;
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        users=FXCollections.observableArrayList();
+
         Main.getInstance().registerCallback(stage -> {
             mainStage = stage;
             mainTitle = stage.getTitle();
@@ -60,9 +67,13 @@ public class ControllerMainStage implements Initializable {
         passField.clear();
     }
 
-    private void updateClientList(String clients) {
-        clientList.clear();
-        clientList.appendText(clients);
+    private void updateClientList(String message) {
+        String[] clients=message.split(" ");
+        Platform.runLater(() -> {
+            users.clear();
+            users.addAll(clients);
+            clientList.setItems(users);
+        });
     }
 
     private boolean executeIfIsCommand(String message) {
@@ -97,8 +108,10 @@ public class ControllerMainStage implements Initializable {
                 authPane.setManaged(true);
                 messagePane.setVisible(false);
                 messagePane.setManaged(false);
-                clientList.clear();
-                Platform.runLater(() -> mainStage.setTitle(mainTitle));
+                Platform.runLater(() -> {
+                    mainStage.setTitle(mainTitle);
+                    users.clear();
+                });
                 client.closeConnection();
                 return true;
             case "/changenick":
