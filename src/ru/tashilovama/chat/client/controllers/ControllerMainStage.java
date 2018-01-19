@@ -75,8 +75,9 @@ public class ControllerMainStage implements Initializable {
     }
 
     public void listClick(MouseEvent mouseEvent) {
-        if (mouseEvent.getClickCount() == 2) {
+        if (mouseEvent.getClickCount() == 2&&clientList.getSelectionModel().getSelectedItem()!=null) {
             messageField.setText(clientList.getSelectionModel().getSelectedItem() + ", ");
+            clientList.getSelectionModel().clearSelection();
             messageField.requestFocus();
             messageField.end();
         }
