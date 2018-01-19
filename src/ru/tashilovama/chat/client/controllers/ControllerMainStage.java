@@ -30,7 +30,6 @@ public class ControllerMainStage implements Initializable {
     private Client client;
     private Stage mainStage;
     private String mainTitle;
-    private Button letter;
 
     private ObservableList<String> users;
 
@@ -38,8 +37,6 @@ public class ControllerMainStage implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         users=FXCollections.observableArrayList();
         clientList.setItems(users);
-        letter=new Button("",new Rectangle(10,10, Color.WHITE));
-        letter.setWrapText(true);
         updateCompositeClientList();
         Main.getInstance().registerCallback(stage -> {
             mainStage = stage;
@@ -94,7 +91,7 @@ public class ControllerMainStage implements Initializable {
                     protected void updateItem(String item, boolean empty) {
                         super.updateItem(item, empty);
                         if (!empty || item != null) {
-                            letter = new Button("", new Rectangle(10, 10, Color.WHITE));
+                            Button letter = new Button("", new Rectangle(10, 10, Color.WHITE));
                             letter.setOnAction(Event -> {
                                 messageField.setText("/wisp " + item + " ");
                                 messageField.requestFocus();
