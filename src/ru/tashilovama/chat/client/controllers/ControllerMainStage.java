@@ -37,7 +37,6 @@ public class ControllerMainStage implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         users=FXCollections.observableArrayList();
         clientList.setItems(users);
-        updateCompositeClientList();
         Main.getInstance().registerCallback(stage -> {
             mainStage = stage;
             mainTitle = stage.getTitle();
@@ -83,7 +82,7 @@ public class ControllerMainStage implements Initializable {
         }
     }
 
-    private void updateCompositeClientList(){
+    private void setCompositeClientList(){
         clientList.setCellFactory(new Callback<>() {
             @Override
             public ListCell<String> call(ListView<String> param) {
@@ -135,6 +134,7 @@ public class ControllerMainStage implements Initializable {
                 authPane.setManaged(false);
                 messagePane.setVisible(true);
                 messagePane.setManaged(true);
+                setCompositeClientList();
                 Platform.runLater(() -> mainStage.setTitle(mainTitle + " - " + myNick));
                 return true;
             case "/end":
@@ -142,6 +142,7 @@ public class ControllerMainStage implements Initializable {
                 authPane.setManaged(true);
                 messagePane.setVisible(false);
                 messagePane.setManaged(false);
+                clientList.setCellFactory(null);
                 Platform.runLater(() -> {
                     mainStage.setTitle(mainTitle);
                     users.clear();
