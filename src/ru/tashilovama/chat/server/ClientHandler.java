@@ -105,7 +105,6 @@ public class ClientHandler {
                             } else sendMsg("Учетная запись уже используется");
                         return true;
                     case "/end":
-                        rights = Rights.NOT_AUTHORIZED;
                         sendMsg("Вы вышли из учетной записи");
                         sendMsg(command);
                         return true;

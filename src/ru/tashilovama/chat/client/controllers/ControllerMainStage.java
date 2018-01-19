@@ -4,13 +4,13 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ListView;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import ru.tashilovama.chat.client.content.Client;
 import ru.tashilovama.chat.client.content.Main;
 
@@ -30,13 +30,17 @@ public class ControllerMainStage implements Initializable {
     private Client client;
     private Stage mainStage;
     private String mainTitle;
+    private Button letter;
 
     private ObservableList<String> users;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         users=FXCollections.observableArrayList();
-
+        clientList.setItems(users);
+        letter=new Button("",new Rectangle(10,10, Color.WHITE));
+        letter.setWrapText(true);
+        updateCompositeClientList();
         Main.getInstance().registerCallback(stage -> {
             mainStage = stage;
             mainTitle = stage.getTitle();
@@ -70,11 +74,7 @@ public class ControllerMainStage implements Initializable {
 
     private void updateClientList(String message) {
         String[] clients=message.split(" ");
-        Platform.runLater(() -> {
-            users.clear();
-            users.addAll(clients);
-            clientList.setItems(users);
-        });
+        Platform.runLater(() -> users.setAll(clients));
     }
 
     public void listClick(MouseEvent mouseEvent) {
@@ -85,6 +85,32 @@ public class ControllerMainStage implements Initializable {
         }
     }
 
+    private void updateCompositeClientList(){
+        clientList.setCellFactory(new Callback<>() {
+            @Override
+            public ListCell<String> call(ListView<String> param) {
+                return new ListCell<>() {
+                    @Override
+                    protected void updateItem(String item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (!empty || item != null) {
+                            letter = new Button("", new Rectangle(10, 10, Color.WHITE));
+                            letter.setOnAction(Event -> {
+                                messageField.setText("/wisp " + item + " ");
+                                messageField.requestFocus();
+                                messageField.end();
+                            });
+                            setGraphic(letter);
+                            setText(item);
+                        } else {
+                            setGraphic(null);
+                            setText("");
+                        }
+                    }
+                };
+            }
+        });
+    }
 
     private boolean executeIfIsCommand(String message) {
         final int PARTS_LIMIT = 2;
