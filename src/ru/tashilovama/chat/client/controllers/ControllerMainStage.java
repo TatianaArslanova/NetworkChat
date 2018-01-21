@@ -35,19 +35,18 @@ public class ControllerMainStage implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        users=FXCollections.observableArrayList();
+        users = FXCollections.observableArrayList();
         clientList.setItems(users);
         Main.getInstance().registerCallback(stage -> {
             mainStage = stage;
             mainTitle = stage.getTitle();
         });
         client = Main.getInstance().getClient();
-        client.registerCallback(message ->
-        {
+        client.registerCallback(message -> Platform.runLater(() -> {
             if (!message.startsWith("/") || !executeIfIsCommand(message)) {
                 chatTextArea.appendText(message + "\n");
             }
-        });
+        }));
     }
 
     public void onSend() {
@@ -69,12 +68,12 @@ public class ControllerMainStage implements Initializable {
     }
 
     private void updateClientList(String message) {
-        String[] clients=message.split(" ");
+        String[] clients = message.split(" ");
         Platform.runLater(() -> users.setAll(clients));
     }
 
     public void listClick(MouseEvent mouseEvent) {
-        if (mouseEvent.getClickCount() == 2&&clientList.getSelectionModel().getSelectedItem()!=null) {
+        if (mouseEvent.getClickCount() == 2 && clientList.getSelectionModel().getSelectedItem() != null) {
             messageField.setText(clientList.getSelectionModel().getSelectedItem() + ", ");
             clientList.getSelectionModel().clearSelection();
             messageField.requestFocus();
@@ -82,7 +81,7 @@ public class ControllerMainStage implements Initializable {
         }
     }
 
-    private void setCompositeClientList(){
+    private void setCompositeClientList() {
         clientList.setCellFactory(new Callback<>() {
             @Override
             public ListCell<String> call(ListView<String> param) {
@@ -126,7 +125,7 @@ public class ControllerMainStage implements Initializable {
                 authPane.setManaged(false);
                 messagePane.setVisible(true);
                 messagePane.setManaged(true);
-                Platform.runLater(() -> mainStage.setTitle(mainTitle + " - " + myNick));
+                mainStage.setTitle(mainTitle + " - " + myNick);
                 return true;
             case "/auth":
                 myNick = parts[1];
@@ -135,7 +134,7 @@ public class ControllerMainStage implements Initializable {
                 messagePane.setVisible(true);
                 messagePane.setManaged(true);
                 setCompositeClientList();
-                Platform.runLater(() -> mainStage.setTitle(mainTitle + " - " + myNick));
+                mainStage.setTitle(mainTitle + " - " + myNick);
                 return true;
             case "/end":
                 authPane.setVisible(true);
@@ -143,15 +142,13 @@ public class ControllerMainStage implements Initializable {
                 messagePane.setVisible(false);
                 messagePane.setManaged(false);
                 clientList.setCellFactory(null);
-                Platform.runLater(() -> {
-                    mainStage.setTitle(mainTitle);
-                    users.clear();
-                });
+                mainStage.setTitle(mainTitle);
+                users.clear();
                 client.closeConnection();
                 return true;
             case "/changenick":
                 myNick = parts[1];
-                Platform.runLater(() -> mainStage.setTitle(mainTitle + " - " + myNick));
+                mainStage.setTitle(mainTitle + " - " + myNick);
                 return true;
             default:
                 return false;
