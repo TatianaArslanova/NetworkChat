@@ -35,14 +35,10 @@ public class Client {
                             controller.callMeBack(message);
                         }
                     } catch (IOException e) {
-                        //  e.printStackTrace();
+                          e.printStackTrace();
                         System.out.println("Клиент отключился");
                     } finally {
-                        try {
-                            socket.close();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                            closeConnection();
                     }
                 });
                 thread.setDaemon(true);
@@ -55,6 +51,8 @@ public class Client {
 
     public void closeConnection(){
         try {
+            in.close();
+            out.close();
             socket.close();
         } catch (IOException e) {
             e.printStackTrace();
