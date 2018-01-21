@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ru.tashilovama.chat.server.controller.ControllerServer"
+      prefHeight="400.0" prefWidth="600.0" spacing="20">
+    <padding>
+        <Insets top="20"/>
+    </padding>
+    <HBox fx:id="startPane" spacing="20" alignment="CENTER">
+        <Button text="Запустить сервер" onAction="#startClick"/>
+        <Label fx:id="currentPort" text="Текущий порт: 5555"/>
+        <Button text="Изменить порт" onAction="#changePort"/>
+    </HBox>
+    <HBox fx:id="stopPane" spacing="20" alignment="CENTER" managed="false" visible="false">
+        <Button text="Остановить сервер" onAction="#stopClick"/>
+    </HBox>
+    <TextArea fx:id="log" editable="false" VBox.vgrow="ALWAYS"/>
+</VBox>

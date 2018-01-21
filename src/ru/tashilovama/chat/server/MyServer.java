@@ -1,6 +1,8 @@
 package ru.tashilovama.chat.server;
 
-import ru.tashilovama.chat.server.authorization.*;
+import ru.tashilovama.chat.server.authorization.AuthService;
+import ru.tashilovama.chat.server.authorization.DBAuthorization;
+import ru.tashilovama.chat.server.authorization.GuestAuthorization;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -10,32 +12,56 @@ import java.util.Vector;
 public class MyServer {
     private ServerSocket server;
     private Vector<ClientHandler> clients;
-    private final int PORT=5555;
     private GuestAuthorization guestAuth;
     private AuthService authService;
+    private Callback controller;
 
-    public MyServer(){
+    public interface Callback{
+        void callMeBack(String message);
+    }
+
+    public void registerCallback(Callback controller){
+        this.controller=controller;
+    }
+
+    public void startServer(int port){
         try {
-            server=new ServerSocket(PORT);
+            server=new ServerSocket(port);
             clients=new Vector<>();
             guestAuth=new GuestAuthorization();
             authService=new DBAuthorization();
-            System.out.println("Сервер запущен");
+            controller.callMeBack("Сервер запущен. Порт: "+port);
             authService.start();
-            new Thread(() -> {
+            Thread thread=new Thread(() -> {
                 try{
                     while (true) {
-                        System.out.println("Сервер ожидает подключения");
+                        controller.callMeBack("Сервер ожидает подключения");
                         Socket socket = server.accept();
-                        System.out.println("Клиент подключился");
+                        controller.callMeBack("Клиент подключился");
                         createClient(socket);
                     }
                 }catch (IOException e){
                     e.printStackTrace();
                 } finally {
-                    authService.stop();
+                    stopServer();
                 }
-            }).start();
+            });
+            thread.setDaemon(true);
+            thread.start();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void stopServer(){
+        try {
+            if (server!=null&&!server.isClosed()) {
+                broadcastMessage("Неполадки на сервере. Попробуйте подключиться позже.");
+                broadcastMessage("/end");
+                authService.stop();
+                server.close();
+                controller.callMeBack("Сервер остановлен");
+            }
         }catch (IOException e){
             e.printStackTrace();
         }
@@ -61,6 +87,7 @@ public class MyServer {
 
     public synchronized void subscribe(ClientHandler client){
         clients.add(client);
+        controller.callMeBack("Клиент прошел авторизацию: "+client.getNick()+"\nАвторизованных пользователей: "+clients.size());
         broadcastClientList();
     }
 
@@ -71,6 +98,7 @@ public class MyServer {
         clients.remove(client);
         broadcastClientList();
         broadcastMessage(client.getNick() + " покидает чат");
+        controller.callMeBack("Клиент отключен: "+client.getNick()+"\nАвторизованных пользователей: "+clients.size());
     }
 
     public synchronized boolean wispMsg (String toNick, String message){
