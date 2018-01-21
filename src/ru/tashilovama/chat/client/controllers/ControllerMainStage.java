@@ -108,6 +108,13 @@ public class ControllerMainStage implements Initializable {
         });
     }
 
+    private void setOriginalView(Boolean originalView){
+        authPane.setVisible(originalView);
+        authPane.setManaged(originalView);
+        messagePane.setVisible(!originalView);
+        messagePane.setManaged(!originalView);
+    }
+
     private boolean executeIfIsCommand(String message) {
         final int PARTS_LIMIT = 2;
         String[] parts = message.split(" ", PARTS_LIMIT);
@@ -121,26 +128,17 @@ public class ControllerMainStage implements Initializable {
                 return true;
             case "/guestauth":
                 myNick = parts[1];
-                authPane.setVisible(false);
-                authPane.setManaged(false);
-                messagePane.setVisible(true);
-                messagePane.setManaged(true);
+                setOriginalView(false);
                 mainStage.setTitle(mainTitle + " - " + myNick);
                 return true;
             case "/auth":
                 myNick = parts[1];
-                authPane.setVisible(false);
-                authPane.setManaged(false);
-                messagePane.setVisible(true);
-                messagePane.setManaged(true);
+                setOriginalView(false);
                 setCompositeClientList();
                 mainStage.setTitle(mainTitle + " - " + myNick);
                 return true;
             case "/end":
-                authPane.setVisible(true);
-                authPane.setManaged(true);
-                messagePane.setVisible(false);
-                messagePane.setManaged(false);
+                setOriginalView(true);
                 clientList.setCellFactory(null);
                 mainStage.setTitle(mainTitle);
                 users.clear();
