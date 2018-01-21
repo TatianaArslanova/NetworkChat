@@ -98,7 +98,8 @@ public class MyServer {
         clients.remove(client);
         broadcastClientList();
         broadcastMessage(client.getNick() + " покидает чат");
-        controller.callMeBack("Клиент отключен: "+client.getNick()+"\nАвторизованных пользователей: "+clients.size());
+        String currentNick=client.getNick()==null ? "(не авторизован)":client.getNick();
+        controller.callMeBack("Клиент отключен: "+currentNick+"\nАвторизованных пользователей: "+clients.size());
     }
 
     public synchronized boolean wispMsg (String toNick, String message){

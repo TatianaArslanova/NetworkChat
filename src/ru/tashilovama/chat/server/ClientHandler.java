@@ -38,11 +38,13 @@ public class ClientHandler {
                             myServer.broadcastMessage(nick + ": " + message);
                     }
                 } catch (IOException e) {
-                    //       e.printStackTrace();
+                           e.printStackTrace();
                     System.out.println("Клиент отключен");
                 } finally {
                     try {
                         myServer.unsubscribe(this);
+                        in.close();
+                        out.close();
                         socket.close();
                     } catch (IOException e) {
                         e.printStackTrace();
