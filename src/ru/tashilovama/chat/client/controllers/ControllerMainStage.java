@@ -15,7 +15,6 @@ import javafx.util.Callback;
 import ru.tashilovama.chat.client.content.Client;
 import ru.tashilovama.chat.client.content.Main;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -61,25 +60,13 @@ public class ControllerMainStage implements Initializable {
     }
 
     public void guestAuthClick() {
-        try {
-            client.startConnection();
-            client.writeMsg("/guestauth");
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Сервер не отвечает. Попробуйте подключиться позже.");
-        }
+        client.guestAuth();
     }
 
     public void userAuthClick() {
-        try {
-            client.startConnection();
-            client.writeMsg("/auth " + loginField.getText() + " " + passField.getText());
-            loginField.clear();
-            passField.clear();
-        } catch (IOException e) {
-            e.printStackTrace();
-            showAlert("Сервер не отвечает. Попробуйте подключиться позже.");
-        }
+        client.authByLoginPass(loginField.getText(), passField.getText());
+        loginField.clear();
+        passField.clear();
     }
 
     private void updateClientList(String message) {

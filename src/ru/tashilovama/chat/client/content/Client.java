@@ -21,7 +21,7 @@ public class Client {
         this.controller = controller;
     }
 
-    public void startConnection() throws IOException {
+    private void startConnection() throws IOException {
         if (socket == null || socket.isClosed()) {
             try {
                 socket = new Socket(host, PORT);
@@ -48,6 +48,28 @@ public class Client {
                 throw new IOException("Connection problem");
             }
         }
+    }
+
+    public void guestAuth(){
+        try {
+            startConnection();
+            writeMsg("/guestauth");
+        } catch (IOException e) {
+            e.printStackTrace();
+            controller.callMeBack("/system /alert Сервер не отвечает. Попробуйте подключиться позже.");
+        }
+
+    }
+
+    public void authByLoginPass(String login, String pass){
+        try {
+            startConnection();
+            writeMsg("/auth "+login+" "+pass);
+        } catch (IOException e) {
+            e.printStackTrace();
+            controller.callMeBack("/system /alert Сервер не отвечает. Попробуйте подключиться позже.");
+        }
+
     }
 
     public void closeConnection() {
