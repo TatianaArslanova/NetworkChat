@@ -52,9 +52,12 @@ public class ControllerMainStage implements Initializable {
     }
 
     public void onSend() {
-        client.writeMsg(messageField.getText());
-        messageField.clear();
-        messageField.requestFocus();
+        if (messageField.getText().startsWith("/system")) chatTextArea.appendText("Недопустимая команда\n");
+        else {
+            client.writeMsg(messageField.getText());
+            messageField.clear();
+            messageField.requestFocus();
+        }
     }
 
     public void guestAuthClick() {
@@ -138,16 +141,26 @@ public class ControllerMainStage implements Initializable {
     }
 
     private boolean executeIfIsCommand(String message) {
-        final int PARTS_LIMIT = 2;
+        final int PARTS_LIMIT = 3;
         String[] parts = message.split(" ", PARTS_LIMIT);
         String command = parts[0];
         String specifiadMessage;
         String myNick;
         switch (command) {
-            case "/clientlist":
-                specifiadMessage = parts[1];
-                updateClientList(specifiadMessage);
-                return true;
+            case "/system":
+                String subcommand = parts[1];
+                switch (subcommand) {
+                    case "/clientlist":
+                        specifiadMessage = parts[2];
+                        updateClientList(specifiadMessage);
+                        return true;
+                    case "/alert":
+                        specifiadMessage = parts[2];
+                        showAlert(specifiadMessage);
+                        return true;
+                    default:
+                        return true;
+                }
             case "/guestauth":
                 myNick = parts[1];
                 setOriginalView(false);

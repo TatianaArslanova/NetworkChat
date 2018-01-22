@@ -56,7 +56,7 @@ public class MyServer {
     public void stopServer() {
         try {
             if (server != null && !server.isClosed()) {
-                broadcastMessage("Неполадки на сервере. Попробуйте подключиться позже.");
+                broadcastMessage("/system /alert Неполадки на сервере. Попробуйте подключиться позже.");
                 broadcastMessage("/end");
                 authService.stop();
                 server.close();
@@ -78,7 +78,7 @@ public class MyServer {
     }
 
     public synchronized void broadcastClientList() {
-        StringBuilder clientList = new StringBuilder("/clientlist ");
+        StringBuilder clientList = new StringBuilder("/system /clientlist ");
         for (ClientHandler o : clients) {
             clientList.append(o.getNick() + " ");
         }
