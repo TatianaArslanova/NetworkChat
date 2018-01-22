@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketTimeoutException;
 
 public class ClientHandler {
     private MyServer myServer;
@@ -25,6 +26,7 @@ public class ClientHandler {
         try {
             this.myServer = myServer;
             this.socket = socket;
+            socket.setSoTimeout(120000);
             in = new DataInputStream(socket.getInputStream());
             out = new DataOutputStream(socket.getOutputStream());
             this.nick = "";
@@ -32,25 +34,36 @@ public class ClientHandler {
             new Thread(() -> {
                 try {
                     while (true) {
-                        String message;
-                        message = in.readUTF();
-                        if (!message.startsWith("/") || !executeIfIsCommand(message))
-                            myServer.broadcastMessage(nick + ": " + message);
+                        try {
+                            String message;
+                            message = in.readUTF();
+                            if (!message.startsWith("/") || !executeIfIsCommand(message))
+                                myServer.broadcastMessage(nick + ": " + message);
+                        } catch (SocketTimeoutException e) {
+                            e.printStackTrace();
+                            if (rights == Rights.NOT_AUTHORIZED) {
+                                disconnect();
+                            } else socket.setSoTimeout(0);
+                        }
                     }
                 } catch (IOException e) {
-                           e.printStackTrace();
+                    e.printStackTrace();
                     System.out.println("Клиент отключен");
                 } finally {
-                    try {
-                        myServer.unsubscribe(this);
-                        in.close();
-                        out.close();
-                        socket.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    myServer.unsubscribe(this);
+                    disconnect();
                 }
             }).start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void disconnect() {
+        try {
+            in.close();
+            out.close();
+            socket.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,29 +95,28 @@ public class ClientHandler {
             if (rights.getAllow(command)) {
                 switch (command) {
                     case "/guestauth":
-                            nick = myServer.getGuestAuth().getGuestName();
-                            if (nick == null) sendMsg("В чате заняты все места для гостей. Попробуйте позже.");
-                            else {
-                                sendMsg("Вы авторизованы как " + nick);
-                                rights = Rights.GUEST;
-                                sendMsg(command + " " + nick);
-                                myServer.subscribe(this);
-                                myServer.broadcastMessage(nick + " входит в чат");
-                            }
+                        nick = myServer.getGuestAuth().getGuestName();
+                        if (nick == null) sendMsg("В чате заняты все места для гостей. Попробуйте позже.");
+                        else {
+                            sendMsg("Вы авторизованы как " + nick);
+                            rights = Rights.GUEST;
+                            sendMsg(command + " " + nick);
+                            myServer.subscribe(this);
+                            myServer.broadcastMessage(nick + " входит в чат");
+                        }
                         return true;
                     case "/auth":
-                            login = parts[1].toLowerCase();
-                            pass = parts[2];
-                            nick = myServer.getAuthService().getNickByLoginPass(login, pass);
-                            if (nick == null) {
-                                sendMsg("Неверный логин или пароль");
-                            } else if (!myServer.isNickBusy(nick)) {
-                                sendMsg("Вы авторизованы как " + nick);
-                                rights = Rights.AUTHORIZED;
-                                sendMsg(command + " " + nick);
-                                myServer.subscribe(this);
-                                myServer.broadcastMessage(nick + " входит в чат");
-                            } else sendMsg("Учетная запись уже используется");
+                        login = parts[1].toLowerCase();
+                        pass = parts[2];
+                        nick = myServer.getAuthService().getNickByLoginPass(login, pass);
+                        if (nick == null) sendMsg("Неверный логин или пароль");
+                        else if (!myServer.isNickBusy(nick)) {
+                            sendMsg("Вы авторизованы как " + nick);
+                            rights = Rights.AUTHORIZED;
+                            sendMsg(command + " " + nick);
+                            myServer.subscribe(this);
+                            myServer.broadcastMessage(nick + " входит в чат");
+                        } else sendMsg("Учетная запись уже используется");
                         return true;
                     case "/end":
                         sendMsg("Вы вышли из учетной записи");
@@ -133,12 +145,12 @@ public class ClientHandler {
                         }
                         return true;
                 }
-            }else {
+            } else {
                 sendMsg("Недостаточно прав для использования команды");
                 return true;
             }
         }
         return false;
-}
+    }
 
 }
