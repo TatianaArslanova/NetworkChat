@@ -9,11 +9,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import ru.tashilovama.chat.client.content.Client;
 import ru.tashilovama.chat.client.content.Main;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -56,15 +58,25 @@ public class ControllerMainStage implements Initializable {
     }
 
     public void guestAuthClick() {
-        client.startConnection();
-        client.writeMsg("/guestauth");
+        try {
+            client.startConnection();
+            client.writeMsg("/guestauth");
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Сервер не отвечает. Попробуйте подключиться позже.");
+        }
     }
 
     public void userAuthClick() {
-        client.startConnection();
-        client.writeMsg("/auth " + loginField.getText() + " " + passField.getText());
-        loginField.clear();
-        passField.clear();
+        try {
+            client.startConnection();
+            client.writeMsg("/auth " + loginField.getText() + " " + passField.getText());
+            loginField.clear();
+            passField.clear();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Сервер не отвечает. Попробуйте подключиться позже.");
+        }
     }
 
     private void updateClientList(String message) {
@@ -108,7 +120,17 @@ public class ControllerMainStage implements Initializable {
         });
     }
 
-    private void setOriginalView(Boolean originalView){
+    private void showAlert(String alertMessage) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.initOwner(mainStage);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setTitle("Возникли проблемы");
+        alert.setHeaderText("Возникли проблемы");
+        alert.setContentText(alertMessage);
+        alert.showAndWait();
+    }
+
+    private void setOriginalView(Boolean originalView) {
         authPane.setVisible(originalView);
         authPane.setManaged(originalView);
         messagePane.setVisible(!originalView);

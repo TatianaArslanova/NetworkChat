@@ -13,16 +13,16 @@ public class Client {
     private final int PORT = 5555;
     private Callback controller;
 
-    public interface Callback{
+    public interface Callback {
         void callMeBack(String message);
     }
 
-    public void registerCallback(Callback controller){
-        this.controller=controller;
+    public void registerCallback(Callback controller) {
+        this.controller = controller;
     }
 
-    public void startConnection(){
-        if (socket==null || socket.isClosed()) {
+    public void startConnection() throws IOException {
+        if (socket == null || socket.isClosed()) {
             try {
                 socket = new Socket(host, PORT);
                 in = new DataInputStream(socket.getInputStream());
@@ -35,21 +35,22 @@ public class Client {
                             controller.callMeBack(message);
                         }
                     } catch (IOException e) {
-                          e.printStackTrace();
+                        e.printStackTrace();
                         System.out.println("Клиент отключился");
                     } finally {
-                            closeConnection();
+                        closeConnection();
                     }
                 });
                 thread.setDaemon(true);
                 thread.start();
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new IOException("Connection problem");
             }
         }
     }
 
-    public void closeConnection(){
+    public void closeConnection() {
         try {
             in.close();
             out.close();
