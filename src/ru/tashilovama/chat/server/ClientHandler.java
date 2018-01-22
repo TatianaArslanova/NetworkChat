@@ -85,6 +85,8 @@ public class ClientHandler {
 
     private boolean executeIfIsCommand(String message) {
         final int PARTS_LIMIT = 3;
+        final int MIN_NICK_SIZE = 2;
+        final int MAX_NICK_SIZE = 30;
         String[] parts = message.split(" ", PARTS_LIMIT);
         String command = parts[0].toLowerCase();
         String login;
@@ -138,11 +140,14 @@ public class ClientHandler {
                             sendMsg("Команда сформулирована неверно: \"" + message.trim() + "\"");
                             return true;
                         }
-                        specifiadNick = parts[1];
-                        if (myServer.getAuthService().changeNick(nick, specifiadNick)) {
+                        specifiadNick = parts[1].trim();
+                        if (rights.isCommand(specifiadNick)) sendMsg("Некорректный ник");
+                        else if (specifiadNick.length() < MIN_NICK_SIZE || specifiadNick.length() > MAX_NICK_SIZE)
+                            sendMsg("Ник должен содержать от " + MIN_NICK_SIZE + " до " + MAX_NICK_SIZE + " символов");
+                        else if (myServer.getAuthService().changeNick(nick, specifiadNick)) {
                             changeNick(specifiadNick);
                             sendMsg(command + " " + specifiadNick);
-                        }
+                        } else sendMsg("Указанный ник занят");
                         return true;
                 }
             } else {
