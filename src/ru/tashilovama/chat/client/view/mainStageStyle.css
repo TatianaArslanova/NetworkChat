@@ -15,10 +15,20 @@
 .letter-button {
 -fx-padding: 0;
 -fx-background-radius: 2;
--fx-graphic: url(letter.png)
+-fx-graphic: url(resource/letter.png)
 }
 
-.auth-pane {
+.help-button {
+-fx-padding: 2;
+-fx-graphic: url(resource/help.png);
+}
+
+.set-button {
+-fx-padding: 2;
+-fx-graphic: url(resource/settings.png);
+}
+
+.top-pane {
 -fx-background-insets: 5 5 2 5;
 -fx-background-radius: 5;
 -fx-background-color: #00008b;
@@ -98,7 +108,7 @@
 }
 
 
-.message-pane {
+.bottom-pane {
 -fx-background-insets: 2 5 5 5;
 -fx-background-radius: 5;
 -fx-background-color: #00008b;

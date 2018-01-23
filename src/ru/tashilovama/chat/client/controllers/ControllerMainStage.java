@@ -152,11 +152,13 @@ public class ControllerMainStage implements Initializable {
             case "/guestauth":
                 myNick = parts[1];
                 setOriginalView(false);
+                messageField.requestFocus();
                 mainStage.setTitle(mainTitle + " - " + myNick);
                 return true;
             case "/auth":
                 myNick = parts[1];
                 setOriginalView(false);
+                messageField.requestFocus();
                 setCompositeClientList();
                 mainStage.setTitle(mainTitle + " - " + myNick);
                 return true;

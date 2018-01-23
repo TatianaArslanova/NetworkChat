@@ -45,7 +45,7 @@ public class Main extends Application {
         Parent root = loader.load();
         mainController = loader.getController();
         primaryStage.setTitle("JavaChat");
-        primaryStage.getIcons().add(new Image("/ru/tashilovama/chat/client/view/icon.png"));
+        primaryStage.getIcons().add(new Image("/ru/tashilovama/chat/client/view/resource/icon.png"));
         Toolkit kit = Toolkit.getDefaultToolkit();
         Dimension dimension = kit.getScreenSize();
         primaryStage.setScene(new Scene(root, dimension.getWidth() / 2, dimension.getHeight() / 2));

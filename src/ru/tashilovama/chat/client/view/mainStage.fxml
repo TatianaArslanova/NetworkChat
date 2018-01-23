@@ -2,11 +2,17 @@
 <?import javafx.scene.layout.*?>
 <VBox fx:controller="ru.tashilovama.chat.client.controllers.ControllerMainStage"
       xmlns:fx="http://javafx.com/fxml" alignment="center" stylesheets="@mainStageStyle.css">
-    <HBox fx:id="authPane" styleClass="auth-pane" spacing="5">
+    <HBox styleClass="top-pane" spacing="5" alignment="CENTER_RIGHT">
+        <HBox spacing="5" fx:id="authPane" HBox.hgrow="ALWAYS">
         <TextField HBox.hgrow="ALWAYS" fx:id="loginField" minWidth="70" onAction="#userAuthClick"/>
         <PasswordField HBox.hgrow="ALWAYS" fx:id="passField" minWidth="70" onAction="#userAuthClick"/>
         <Button text="Войти" onAction="#userAuthClick" minWidth="50"/>
         <Button text="Войти как гость" onAction="#guestAuthClick" minWidth="110"/>
+        </HBox>
+        <HBox spacing="5">
+            <Button styleClass="help-button"/>
+            <Button styleClass="set-button"/>
+        </HBox>
     </HBox>
     <HBox VBox.vgrow="ALWAYS">
         <SplitPane HBox.hgrow="ALWAYS">
@@ -14,7 +20,7 @@
     <ListView fx:id="clientList" onMouseClicked="#listClick" minWidth="70" maxWidth="200" focusTraversable="false" />
         </SplitPane>
     </HBox>
-    <HBox visible="false" fx:id="messagePane" managed="false" styleClass="message-pane" spacing="10">
+    <HBox visible="false" fx:id="messagePane" managed="false" styleClass="bottom-pane" spacing="10">
         <TextField fx:id="messageField" HBox.hgrow="ALWAYS" minWidth="100" onAction="#onSend"/>
         <Button text="Отправить" minWidth="100" onAction="#onSend"/>
     </HBox>
