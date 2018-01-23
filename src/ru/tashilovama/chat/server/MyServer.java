@@ -7,6 +7,7 @@ import ru.tashilovama.chat.server.authorization.GuestAuthorization;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Calendar;
 import java.util.Vector;
 
 public class MyServer {
@@ -30,14 +31,14 @@ public class MyServer {
             clients = new Vector<>();
             guestAuth = new GuestAuthorization();
             authService = new DBAuthorization();
-            controller.callMeBack("Сервер запущен. Порт: " + port);
+            printWithDate("Сервер запущен. Порт: " + port);
             authService.start();
             Thread thread = new Thread(() -> {
                 try {
                     while (true) {
-                        controller.callMeBack("Сервер ожидает подключения");
+                        printWithDate("Сервер ожидает подключения");
                         Socket socket = server.accept();
-                        controller.callMeBack("Клиент подключился");
+                        printWithDate("Клиент подключился");
                         createClient(socket);
                     }
                 } catch (IOException e) {
@@ -60,11 +61,15 @@ public class MyServer {
                 broadcastMessage("/end");
                 authService.stop();
                 server.close();
-                controller.callMeBack("Сервер остановлен");
+                printWithDate("Сервер остановлен");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void printWithDate(String message){
+        controller.callMeBack(Calendar.getInstance().getTime().toString()+": "+message);
     }
 
     private void createClient(Socket socket) {
@@ -87,7 +92,7 @@ public class MyServer {
 
     public synchronized void subscribe(ClientHandler client) {
         clients.add(client);
-        controller.callMeBack("Клиент прошел авторизацию: " + client.getNick() + "\nАвторизованных пользователей: " + clients.size());
+        printWithDate("Клиент прошел авторизацию: " + client.getNick() + "\nАвторизованных пользователей: " + clients.size());
         broadcastClientList();
     }
 
@@ -101,7 +106,7 @@ public class MyServer {
             broadcastMessage(client.getNick() + " покидает чат");
         }
         String currentNick = client.getNick() == null ? "(не авторизован)" : client.getNick();
-        controller.callMeBack("Клиент отключен: " + currentNick + "\nАвторизованных пользователей: " + clients.size());
+        printWithDate("Клиент отключен: " + currentNick + "\nАвторизованных пользователей: " + clients.size());
     }
 
     public synchronized boolean wispMsg(String toNick, String message) {
