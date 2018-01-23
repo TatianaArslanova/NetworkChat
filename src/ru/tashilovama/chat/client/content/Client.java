@@ -9,8 +9,8 @@ public class Client {
     private Socket socket;
     private DataInputStream in;
     private DataOutputStream out;
-    private final String host = "localhost";
-    private final int PORT = 5555;
+    private String host = "localhost";
+    private int port = 5555;
     private Callback controller;
 
     public interface Callback {
@@ -21,10 +21,18 @@ public class Client {
         this.controller = controller;
     }
 
+    public String getHost() {
+        return host;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
     private void startConnection() throws IOException {
         if (socket == null || socket.isClosed()) {
             try {
-                socket = new Socket(host, PORT);
+                socket = new Socket(host, port);
                 in = new DataInputStream(socket.getInputStream());
                 out = new DataOutputStream(socket.getOutputStream());
                 Thread thread = new Thread(() -> {
@@ -50,7 +58,22 @@ public class Client {
         }
     }
 
-    public void guestAuth(){
+    public void closeConnection() {
+        try {
+            in.close();
+            out.close();
+            socket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setConnectionSettings(String host, int port) {
+        this.host = host;
+        this.port = port;
+    }
+
+    public void guestAuth() {
         try {
             startConnection();
             writeMsg("/guestauth");
@@ -61,25 +84,15 @@ public class Client {
 
     }
 
-    public void authByLoginPass(String login, String pass){
+    public void authByLoginPass(String login, String pass) {
         try {
             startConnection();
-            writeMsg("/auth "+login+" "+pass);
+            writeMsg("/auth " + login + " " + pass);
         } catch (IOException e) {
             e.printStackTrace();
             controller.callMeBack("/system /alert Сервер не отвечает. Попробуйте подключиться позже.");
         }
 
-    }
-
-    public void closeConnection() {
-        try {
-            in.close();
-            out.close();
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public void writeMsg(String message) {

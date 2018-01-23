@@ -1,23 +1,25 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <VBox fx:controller="ru.tashilovama.chat.client.controllers.ControllerMainStage"
-      xmlns:fx="http://javafx.com/fxml" alignment="center" stylesheets="@mainStageStyle.css">
+      xmlns:fx="http://javafx.com/fxml" alignment="center" stylesheets="@mainStyle.css">
     <HBox styleClass="top-pane" spacing="5" alignment="CENTER_RIGHT">
         <HBox spacing="5" fx:id="authPane" HBox.hgrow="ALWAYS">
-        <TextField HBox.hgrow="ALWAYS" fx:id="loginField" minWidth="70" onAction="#userAuthClick"/>
-        <PasswordField HBox.hgrow="ALWAYS" fx:id="passField" minWidth="70" onAction="#userAuthClick"/>
-        <Button text="Войти" onAction="#userAuthClick" minWidth="50"/>
-        <Button text="Войти как гость" onAction="#guestAuthClick" minWidth="110"/>
+            <TextField HBox.hgrow="ALWAYS" fx:id="loginField" minWidth="70" onAction="#userAuthClick"/>
+            <PasswordField HBox.hgrow="ALWAYS" fx:id="passField" minWidth="70" onAction="#userAuthClick"/>
+            <Button text="Войти" onAction="#userAuthClick" minWidth="50"/>
+            <Button text="Войти как гость" onAction="#guestAuthClick" minWidth="110"/>
         </HBox>
         <HBox spacing="5">
             <Button styleClass="help-button"/>
-            <Button styleClass="set-button"/>
+            <Button styleClass="set-button" onAction="#showSettings"/>
         </HBox>
     </HBox>
     <HBox VBox.vgrow="ALWAYS">
         <SplitPane HBox.hgrow="ALWAYS">
-    <TextArea fx:id="chatTextArea" HBox.hgrow="ALWAYS" editable="false" wrapText="true" focusTraversable="false"/>
-    <ListView fx:id="clientList" onMouseClicked="#listClick" minWidth="70" maxWidth="200" focusTraversable="false" />
+            <TextArea fx:id="chatTextArea" HBox.hgrow="ALWAYS" editable="false" wrapText="true"
+                      focusTraversable="false"/>
+            <ListView fx:id="clientList" onMouseClicked="#listClick" minWidth="70" maxWidth="200"
+                      focusTraversable="false"/>
         </SplitPane>
     </HBox>
     <HBox visible="false" fx:id="messagePane" managed="false" styleClass="bottom-pane" spacing="10">

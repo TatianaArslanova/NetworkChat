@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<VBox xmlns="http://javafx.com/javafx"
+      xmlns:fx="http://javafx.com/fxml"
+      fx:controller="ru.tashilovama.chat.client.controllers.ControllerSettings"
+      prefHeight="400.0" prefWidth="600.0" spacing="10" stylesheets="@mainStyle.css">
+    <padding>
+        <Insets top="20" right="30" left="30"/>
+    </padding>
+    <Label text="Укажите сервер:" alignment="CENTER"/>
+    <GridPane hgap="10" vgap="10">
+        <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Хост" textAlignment="CENTER"/>
+        <TextField GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="hostField" HBox.hgrow="ALWAYS"
+                   onAction="#updateConnectionSettings"/>
+        <Label GridPane.rowIndex="1" GridPane.columnIndex="0" text="Порт" textAlignment="CENTER"/>
+        <TextField GridPane.rowIndex="1" GridPane.columnIndex="1" fx:id="portField" HBox.hgrow="ALWAYS"
+                   onAction="#updateConnectionSettings"/>
+    </GridPane>
+    <Label fx:id="tryAgainMessage" alignment="CENTER" textFill="firebrick" text="Некорректно указан порт"
+           visible="false"
+           managed="false"/>
+    <HBox alignment="CENTER" spacing="10">
+        <Button text="ОК" onAction="#updateConnectionSettings"/>
+        <Button text="Отмена" cancelButton="true" onAction="#cancelClick"/>
+    </HBox>
+</VBox>

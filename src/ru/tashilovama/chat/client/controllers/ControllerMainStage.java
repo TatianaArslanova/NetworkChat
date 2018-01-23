@@ -3,8 +3,12 @@ package ru.tashilovama.chat.client.controllers;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -119,6 +123,22 @@ public class ControllerMainStage implements Initializable {
         alert.setHeaderText("Возникли проблемы");
         alert.setContentText(alertMessage);
         alert.showAndWait();
+    }
+
+    public void showSettings() throws Exception {
+        Stage settingsWindow = new Stage();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ru/tashilovama/chat/client/view/settings.fxml"));
+        Parent settings = loader.load();
+        ControllerSettings controllerSettings = loader.getController();
+        controllerSettings.registerCallback(((host, port) -> client.setConnectionSettings(host, port)));
+        controllerSettings.setDefaultText(client.getHost(), client.getPort());
+        settingsWindow.getIcons().add(new Image("/ru/tashilovama/chat/client/view/resource/settings.png"));
+        settingsWindow.setScene(new Scene(settings, 300, 200));
+        settingsWindow.setAlwaysOnTop(true);
+        settingsWindow.setTitle("Настройки подключения");
+        settingsWindow.initModality(Modality.APPLICATION_MODAL);
+        settingsWindow.setResizable(false);
+        settingsWindow.show();
     }
 
     private void setOriginalView(Boolean originalView) {

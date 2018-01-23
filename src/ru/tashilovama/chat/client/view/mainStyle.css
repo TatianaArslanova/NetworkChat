@@ -1,6 +1,6 @@
 .root {
 -fx-background: transparent;
--fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #6a5acd 0%, #e6e6fa 100%);
+-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #6a5acd 0%, #87ceeb 100%);
 -fx-font-size: 14;
 }
 
