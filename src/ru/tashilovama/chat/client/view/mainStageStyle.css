@@ -1,0 +1,116 @@
+.root {
+-fx-background: transparent;
+-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #6a5acd 0%, #e6e6fa 100%);
+-fx-font-size: 14;
+}
+
+.button {
+-fx-background-color: linear-gradient(from 0% 0% to 0% 100%, #f8f8ff 0%, #e6e6fa 100%);
+}
+
+.button:armed {
+-fx-background-color: #b0c4de;
+}
+
+.letter-button {
+-fx-padding: 0;
+-fx-background-radius: 2;
+-fx-graphic: url(letter.png)
+}
+
+.auth-pane {
+-fx-background-insets: 5 5 2 5;
+-fx-background-radius: 5;
+-fx-background-color: #00008b;
+-fx-padding: 10 10 8 10;
+-fx-effect: dropshadow(gaussian, #f0f8ff, 8, 0.3, 1, -1)
+}
+
+.text-area {
+-fx-background-insets: 2 0 2 4;
+-fx-background-color: #00008b;
+-fx-background-radius: 5;
+-fx-padding: 8 6 8 10;
+-fx-text-fill: #191970;
+}
+
+.text-area .content{
+-fx-background-color: #b0c4de;
+-fx-padding: 10 20 20 0;
+}
+
+.text-area .content .text{
+-fx-effect: dropshadow(gaussian, #f0f8ff, 15, 0.4, 1, -1);
+}
+
+.scroll-pane {
+-fx-background-color: #00008b;
+}
+
+.scroll-bar{
+-fx-background-color:transparent;
+}
+
+.increment-button, .decrement-button {
+-fx-background-color: #b0c4de;
+-fx-background-radius: 2;
+-fx-border-color: #00008b;
+}
+
+.scroll-bar .thumb{
+-fx-background-color: #b0c4de;
+-fx-border-color: #00008b;
+-fx-background-radius: 3;
+}
+
+.text-field {
+-fx-background-color: #f8f8ff;
+}
+
+.list-view {
+-fx-background-insets: 2 4 2 0;
+-fx-background-radius: 5;
+-fx-background-color: #00008b;
+-fx-padding: 9 11 9 7;
+}
+
+.list-cell {
+-fx-background-radius: 15;
+-fx-background-insets: 2 0 2 0;
+-fx-padding: 5;
+-fx-label-padding: 0 10 0 10;
+}
+
+.list-cell:odd {
+-fx-background-color: #b0c4de;
+}
+
+.list-cell:even {
+-fx-background-color: #e6e6fa;
+}
+
+.list-cell:selected {
+-fx-background-color: #f5f5f5;
+}
+
+.list-cell:empty {
+-fx-background-color: transparent;
+}
+
+
+.message-pane {
+-fx-background-insets: 2 5 5 5;
+-fx-background-radius: 5;
+-fx-background-color: #00008b;
+-fx-padding: 8 11 10 11;
+-fx-effect: dropshadow(gaussian, #f0f8ff, 8, 0.3, 1, -1)
+}
+
+.split-pane {
+-fx-box-border: transparent;
+}
+
+.split-pane-divider {
+-fx-background-color: transparent;
+}
+

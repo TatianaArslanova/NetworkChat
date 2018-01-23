@@ -93,6 +93,7 @@ public class ControllerMainStage implements Initializable {
                         super.updateItem(item, empty);
                         if (!empty || item != null) {
                             Button letter = new Button("", new Rectangle(10, 10, Color.WHITE));
+                            letter.getStyleClass().add("letter-button");
                             letter.setOnAction(Event -> {
                                 messageField.setText("/wisp " + item + " ");
                                 messageField.requestFocus();

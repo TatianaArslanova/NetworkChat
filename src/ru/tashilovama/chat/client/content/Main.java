@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import ru.tashilovama.chat.client.controllers.ControllerMainStage;
 
@@ -18,19 +19,19 @@ public class Main extends Application {
     @Override
     public void init() throws Exception {
         super.init();
-        client=new Client();
-        instance=this;
+        client = new Client();
+        instance = this;
     }
 
-    public interface Callback{
+    public interface Callback {
         void callMeBack(Stage stage);
     }
 
-    public void registerCallback(Callback controller){
-        this.controller=controller;
+    public void registerCallback(Callback controller) {
+        this.controller = controller;
     }
 
-    public static Main getInstance(){
+    public static Main getInstance() {
         return instance;
     }
 
@@ -39,14 +40,15 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        FXMLLoader loader=new FXMLLoader(getClass().getResource("/ru/tashilovama/chat/client/fxml/mainStage.fxml"));
-        Parent root=loader.load();
-        mainController=loader.getController();
+    public void start(Stage primaryStage) throws Exception {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/ru/tashilovama/chat/client/view/mainStage.fxml"));
+        Parent root = loader.load();
+        mainController = loader.getController();
         primaryStage.setTitle("JavaChat");
-        Toolkit kit=Toolkit.getDefaultToolkit();
-        Dimension dimension=kit.getScreenSize();
-        primaryStage.setScene(new Scene(root, dimension.getWidth()/2, dimension.getHeight()/2));
+        primaryStage.getIcons().add(new Image("/ru/tashilovama/chat/client/view/icon.png"));
+        Toolkit kit = Toolkit.getDefaultToolkit();
+        Dimension dimension = kit.getScreenSize();
+        primaryStage.setScene(new Scene(root, dimension.getWidth() / 2, dimension.getHeight() / 2));
         primaryStage.setMinWidth(350);
         primaryStage.setMinHeight(200);
         primaryStage.show();
