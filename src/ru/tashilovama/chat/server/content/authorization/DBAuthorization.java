@@ -1,8 +1,8 @@
-package ru.tashilovama.chat.server.authorization;
+package ru.tashilovama.chat.server.content.authorization;
 
 import java.sql.*;
 
-public class DBAuthorization implements AuthService{
+public class DBAuthorization implements AuthService {
     private Connection connection;
     private PreparedStatement findNick;
     private PreparedStatement checkNick;
@@ -16,7 +16,7 @@ public class DBAuthorization implements AuthService{
             checkNick=connection.prepareStatement("SELECT COUNT(*) FROM authTable WHERE nick = ?;");
             setNick=connection.prepareStatement("UPDATE authTable SET nick = ? WHERE nick = ?;");
         } catch (Exception e) {
-        //    e.printStackTrace();
+            e.printStackTrace();
         }
     }
 

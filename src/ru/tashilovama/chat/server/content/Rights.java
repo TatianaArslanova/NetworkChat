@@ -1,4 +1,4 @@
-package ru.tashilovama.chat.server;
+package ru.tashilovama.chat.server.content;
 
 import java.util.ArrayList;
 import java.util.Arrays;

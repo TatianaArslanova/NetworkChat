@@ -1,8 +1,8 @@
-package ru.tashilovama.chat.server;
+package ru.tashilovama.chat.server.content;
 
-import ru.tashilovama.chat.server.authorization.AuthService;
-import ru.tashilovama.chat.server.authorization.DBAuthorization;
-import ru.tashilovama.chat.server.authorization.GuestAuthorization;
+import ru.tashilovama.chat.server.content.authorization.AuthService;
+import ru.tashilovama.chat.server.content.authorization.DBAuthorization;
+import ru.tashilovama.chat.server.content.authorization.GuestAuthorization;
 
 import java.io.IOException;
 import java.net.ServerSocket;

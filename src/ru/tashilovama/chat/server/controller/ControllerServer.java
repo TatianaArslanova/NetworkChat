@@ -10,8 +10,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ru.tashilovama.chat.server.Main;
-import ru.tashilovama.chat.server.MyServer;
+import ru.tashilovama.chat.server.content.Main;
+import ru.tashilovama.chat.server.content.MyServer;
 
 import java.net.URL;
 import java.util.ResourceBundle;

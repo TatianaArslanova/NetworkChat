@@ -1,4 +1,4 @@
-package ru.tashilovama.chat.server;
+package ru.tashilovama.chat.server.content;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;

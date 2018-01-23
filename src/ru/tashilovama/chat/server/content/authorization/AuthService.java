@@ -1,6 +1,4 @@
-package ru.tashilovama.chat.server.authorization;
-
-import ru.tashilovama.chat.server.ClientHandler;
+package ru.tashilovama.chat.server.content.authorization;
 
 public interface AuthService {
     String getNickByLoginPass(String login, String pass);
