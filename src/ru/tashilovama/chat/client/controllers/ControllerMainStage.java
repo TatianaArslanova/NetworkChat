@@ -141,6 +141,18 @@ public class ControllerMainStage implements Initializable {
         settingsWindow.show();
     }
 
+    public void showHelp() {
+        Alert help = new Alert(Alert.AlertType.INFORMATION);
+        help.initOwner(mainStage);
+        help.initModality(Modality.APPLICATION_MODAL);
+        help.setTitle("Помощь");
+        help.setHeaderText(null);
+        help.getDialogPane().getStylesheets().add(getClass().getResource("/ru/tashilovama/chat/client/view/mainStyle.css").toExternalForm());
+        String helpMsg = "ВЫЙТИ ИЗ АККАУНТА: сообщение /end\nСМЕНИТЬ НИК: сообщение /changenick Ник\nЛИЧНОЕ СООБЩЕНИЕ: сообщение /wisp Ник\nОБРАТИТЬСЯ ПО НИКУ: двойной клик по нику в списке\n\nГости не могут менять ник и отправлять личные сообщения";
+        help.setContentText(helpMsg);
+        help.showAndWait();
+    }
+
     private void setOriginalView(Boolean originalView) {
         authPane.setVisible(originalView);
         authPane.setManaged(originalView);

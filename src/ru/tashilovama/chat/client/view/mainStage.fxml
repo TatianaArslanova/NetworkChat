@@ -10,7 +10,7 @@
             <Button text="Войти как гость" onAction="#guestAuthClick" minWidth="110"/>
         </HBox>
         <HBox spacing="5">
-            <Button styleClass="help-button"/>
+            <Button styleClass="help-button" onAction="#showHelp"/>
             <Button styleClass="set-button" onAction="#showSettings"/>
         </HBox>
     </HBox>
