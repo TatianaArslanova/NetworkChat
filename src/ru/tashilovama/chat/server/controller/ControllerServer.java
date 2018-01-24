@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import ru.tashilovama.chat.server.content.Main;
 import ru.tashilovama.chat.server.content.MyServer;
 
+import java.net.BindException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -41,9 +42,9 @@ public class ControllerServer implements Initializable {
                 stopPane.setManaged(true);
                 stopPane.setVisible(true);
             });
-
-        }catch (Exception e){
+        }catch (BindException e){
             e.printStackTrace();
+            log.appendText("Указанный порт занят\n");
             server.stopServer();
         }
     }

@@ -5,6 +5,7 @@ import ru.tashilovama.chat.server.content.authorization.DBAuthorization;
 import ru.tashilovama.chat.server.content.authorization.GuestAuthorization;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Calendar;
@@ -25,7 +26,7 @@ public class MyServer {
         this.controller = controller;
     }
 
-    public void startServer(int port) {
+    public void startServer(int port) throws BindException{
         try {
             server = new ServerSocket(port);
             clients = new Vector<>();
@@ -49,6 +50,9 @@ public class MyServer {
             });
             thread.setDaemon(true);
             thread.start();
+        }catch (BindException e){
+            e.printStackTrace();
+            throw new BindException("Address already in use");
         } catch (IOException e) {
             e.printStackTrace();
         }

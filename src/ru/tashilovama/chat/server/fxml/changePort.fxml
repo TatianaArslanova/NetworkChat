@@ -12,7 +12,7 @@
     <Insets top="10" right="30" left="30"/>
 </padding>
     <Label text="Укажите порт:" textAlignment="CENTER"/>
-    <TextField fx:id="portField"/>
+    <TextField fx:id="portField" onAction="#updatePort"/>
     <Label fx:id="tryAgainMessage" alignment="CENTER" textFill="red" text="Некорректно указан порт" visible="false"
            managed="false"/>
     <HBox alignment="CENTER" spacing="10">
