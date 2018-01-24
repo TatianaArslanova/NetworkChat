@@ -11,7 +11,7 @@
         <Insets top="20" right="30" left="30"/>
     </padding>
     <Label text="Укажите сервер:" alignment="CENTER"/>
-    <GridPane hgap="10" vgap="10">
+    <GridPane hgap="10" vgap="10" alignment="CENTER">
         <Label GridPane.rowIndex="0" GridPane.columnIndex="0" text="Хост" textAlignment="CENTER"/>
         <TextField GridPane.rowIndex="0" GridPane.columnIndex="1" fx:id="hostField" HBox.hgrow="ALWAYS"
                    onAction="#updateConnectionSettings"/>
@@ -24,6 +24,7 @@
            managed="false"/>
     <HBox alignment="CENTER" spacing="10">
         <Button text="ОК" onAction="#updateConnectionSettings"/>
-        <Button text="Отмена" cancelButton="true" onAction="#cancelClick"/>
+        <Button text="Отмена" onAction="#cancelClick"/>
+        <Button text="По умолчанию" onAction="#defaultClick"/>
     </HBox>
 </VBox>

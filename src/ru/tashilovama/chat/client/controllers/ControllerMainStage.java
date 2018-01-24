@@ -122,7 +122,15 @@ public class ControllerMainStage implements Initializable {
         alert.setTitle("Возникли проблемы");
         alert.setHeaderText("Возникли проблемы");
         alert.setContentText(alertMessage);
-        alert.showAndWait();
+        alert.showAndWait().ifPresent(responce -> {
+            if (responce == ButtonType.OK) {
+                try {
+                    showSettings();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     public void showSettings() throws Exception {
@@ -133,7 +141,7 @@ public class ControllerMainStage implements Initializable {
         controllerSettings.registerCallback(((host, port) -> client.setConnectionSettings(host, port)));
         controllerSettings.setDefaultText(client.getHost(), client.getPort());
         settingsWindow.getIcons().add(new Image("/ru/tashilovama/chat/client/view/resource/settings.png"));
-        settingsWindow.setScene(new Scene(settings, 300, 200));
+        settingsWindow.setScene(new Scene(settings, 320, 200));
         settingsWindow.setAlwaysOnTop(true);
         settingsWindow.setTitle("Настройки подключения");
         settingsWindow.initModality(Modality.APPLICATION_MODAL);
