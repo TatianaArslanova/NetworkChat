@@ -17,7 +17,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import ru.tashilovama.chat.client.content.Client;
-import ru.tashilovama.chat.client.content.Main;
+import ru.tashilovama.chat.client.ClientApp;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -42,11 +42,11 @@ public class ControllerMainStage implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         users = FXCollections.observableArrayList();
         clientList.setItems(users);
-        Main.getInstance().registerCallback(stage -> {
+        ClientApp.getInstance().registerCallback(stage -> {
             mainStage = stage;
             mainTitle = stage.getTitle();
         });
-        client = Main.getInstance().getClient();
+        client = ClientApp.getInstance().getClient();
         client.registerCallback(message -> Platform.runLater(() -> {
             if (!message.startsWith("/") || !executeIfIsCommand(message)) {
                 chatTextArea.appendText(message + "\n");

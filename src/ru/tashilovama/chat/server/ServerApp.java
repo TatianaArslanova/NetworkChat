@@ -1,13 +1,14 @@
-package ru.tashilovama.chat.server.content;
+package ru.tashilovama.chat.server;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ru.tashilovama.chat.server.content.MyServer;
 
-public class Main extends Application{
-    private static Main instance;
+public class ServerApp extends Application{
+    private static ServerApp instance;
     private MyServer server;
 
     @Override
@@ -16,7 +17,7 @@ public class Main extends Application{
         server=new MyServer();
     }
 
-    public static Main getInstance(){
+    public static ServerApp getInstance(){
         return instance;
     }
 

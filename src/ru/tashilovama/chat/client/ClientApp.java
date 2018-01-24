@@ -1,4 +1,4 @@
-package ru.tashilovama.chat.client.content;
+package ru.tashilovama.chat.client;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -6,15 +6,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import ru.tashilovama.chat.client.content.Client;
 import ru.tashilovama.chat.client.controllers.ControllerMainStage;
 
 import java.awt.*;
 
-public class Main extends Application {
+public class ClientApp extends Application {
     private Client client;
     private ControllerMainStage mainController;
     private Callback controller;
-    private static Main instance;
+    private static ClientApp instance;
 
     @Override
     public void init() throws Exception {
@@ -31,7 +32,7 @@ public class Main extends Application {
         this.controller = controller;
     }
 
-    public static Main getInstance() {
+    public static ClientApp getInstance() {
         return instance;
     }
 

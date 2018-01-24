@@ -10,7 +10,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import ru.tashilovama.chat.server.content.Main;
+import ru.tashilovama.chat.server.ServerApp;
 import ru.tashilovama.chat.server.content.MyServer;
 
 import java.net.BindException;
@@ -28,7 +28,7 @@ public class ControllerServer implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        server=Main.getInstance().getServer();
+        server= ServerApp.getInstance().getServer();
         port=5555;
         server.registerCallback(message -> Platform.runLater(() -> log.appendText(message+"\n")));
     }
