@@ -138,11 +138,23 @@ public class ControllerMainStage implements Initializable {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/ru/tashilovama/chat/client/view/settings.fxml"));
         Parent settings = loader.load();
         ControllerSettings controllerSettings = loader.getController();
-        controllerSettings.registerCallback(((host, port) -> client.setConnectionSettings(host, port)));
+        controllerSettings.registerCallback((host, port) -> {
+            if (client.isConnected()) {
+                Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+                confirmation.setTitle("Подтверждение");
+                confirmation.setHeaderText("Применить настройки?");
+                confirmation.setContentText("Текущая сессия будет закончена");
+                confirmation.initOwner(settingsWindow);
+                confirmation.initModality(Modality.APPLICATION_MODAL);
+                confirmation.showAndWait().ifPresent(responce -> {
+                    if (responce == ButtonType.OK) client.writeMsg("/end");
+                });
+            }
+            client.setConnectionSettings(host, port);
+        });
         controllerSettings.setDefaultText(client.getHost(), client.getPort());
         settingsWindow.getIcons().add(new Image("/ru/tashilovama/chat/client/view/resource/settings.png"));
         settingsWindow.setScene(new Scene(settings, 320, 200));
-        settingsWindow.setAlwaysOnTop(true);
         settingsWindow.setTitle("Настройки подключения");
         settingsWindow.initModality(Modality.APPLICATION_MODAL);
         settingsWindow.setResizable(false);

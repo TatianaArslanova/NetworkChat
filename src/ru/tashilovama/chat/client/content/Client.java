@@ -29,6 +29,10 @@ public class Client {
         return port;
     }
 
+    public boolean isConnected() {
+        return socket != null && !socket.isClosed();
+    }
+
     private void startConnection() throws IOException {
         if (socket == null || socket.isClosed()) {
             try {
